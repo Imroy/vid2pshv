@@ -8,8 +8,6 @@
 
 #define BUFFER_SIZE 536870912
 
-unsigned long audiosize;
-unsigned long videosize;
 
 void bufferedWrite(FILE* in, FILE* out) {
 	char buffer[BUFFER_SIZE];
@@ -53,7 +51,7 @@ int main(int argc,char** argv){
 	unsigned long read_start = 0;
 	fseek(input_audio, 0, SEEK_END);
 	unsigned long size = (unsigned long)ftell(input_audio);
-	audiosize = size - read_start;
+	unsigned long audiosize = size - read_start;
 	fwrite(&audiosize, sizeof(unsigned long), 1, output);
 	fprintf(stderr, "Audio size: %lu bytes\n", audiosize);
 	
@@ -72,7 +70,7 @@ int main(int argc,char** argv){
 	read_start = 0;
 	fseek(input_video, 0, SEEK_END);
 	size = (unsigned long)ftell(input_video);
-	videosize = size - read_start;
+	unsigned long videosize = size - read_start;
 	fprintf(stderr, "Video size: %lu bytes\n", videosize);
 	
 	// Writing video data
