@@ -23,18 +23,22 @@ void bufferedWrite(FILE* in, FILE* out, unsigned long size){
 }
 
 int main(int argc,char** argv){
-	
+	if (argc < 5) {
+		fprintf(stderr, "%s <framerate> <audiofile> <videofile> <outfile>\n", argv[0]);
+		return -1;
+	}
+
 	// Getting framerate from argv
 	float framerate = atof(argv[1]);
 	
 	// Opening output file
-	FILE* output = fopen("output.pshv", "wb");
+	FILE* output = fopen(argv[4], "wb");
 	fwrite("PSHV",1,4,output);
 	fwrite(&framerate, sizeof(float), 1, output);
 	
 	// Getting audio size
 	printf("Writing audio track...\n");
-	FILE* input_audio = fopen("./temp/audiotrack.ogg","rb");		
+	FILE* input_audio = fopen(argv[2], "rb");
 	unsigned long read_start = 0;
 	fseek(input_audio, 0, SEEK_END);
 	unsigned long size = (unsigned long)ftell(input_audio);
@@ -49,7 +53,7 @@ int main(int argc,char** argv){
 	
 	// Getting video size
 	printf("Opening video track...\n");
-	FILE* input_video = fopen("./temp/baseline.264","rb");		
+	FILE* input_video = fopen(argv[3], "rb");
 	read_start = 0;
 	fseek(input_video, 0, SEEK_END);
 	size = (unsigned long)ftell(input_video);
