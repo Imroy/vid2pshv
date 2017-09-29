@@ -23,8 +23,8 @@ void bufferedWrite(FILE* in, FILE* out, unsigned long size){
 }
 
 int main(int argc,char** argv){
-	if (argc < 5) {
-		fprintf(stderr, "%s <framerate> <audiofile> <videofile> <outfile>\n", argv[0]);
+	if (argc < 4) {
+		fprintf(stderr, "%s <framerate> <audiofile> <videofile> [<outfile>]\n", argv[0]);
 		return -1;
 	}
 
@@ -32,7 +32,11 @@ int main(int argc,char** argv){
 	float framerate = atof(argv[1]);
 	
 	// Opening output file
-	FILE* output = fopen(argv[4], "wb");
+	FILE* output = stdout;
+	if (argc > 4) {
+		output = fopen(argv[4], "wb");
+	}
+
 	fwrite("PSHV",1,4,output);
 	fwrite(&framerate, sizeof(float), 1, output);
 	
