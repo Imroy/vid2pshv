@@ -3,6 +3,8 @@
 #include <dirent.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
 #define BUFFER_SIZE 536870912
 
@@ -35,6 +37,10 @@ int main(int argc,char** argv){
 	FILE* output = stdout;
 	if (argc > 4) {
 		output = fopen(argv[4], "wb");
+		if (output == NULL) {
+			fprintf(stderr, "Error opening \"%s\": %s\n", argv[4], strerror(errno));
+			return -1;
+		}
 	}
 
 	fwrite("PSHV",1,4,output);
@@ -43,6 +49,10 @@ int main(int argc,char** argv){
 	// Getting audio size
 	fprintf(stderr, "Writing audio track...\n");
 	FILE* input_audio = fopen(argv[2], "rb");
+	if (input_audio == NULL) {
+		fprintf(stderr, "Error opening \"%s\": %s\n", argv[2], strerror(errno));
+		return -1;
+	}
 	unsigned long read_start = 0;
 	fseek(input_audio, 0, SEEK_END);
 	unsigned long size = (unsigned long)ftell(input_audio);
@@ -58,6 +68,10 @@ int main(int argc,char** argv){
 	// Getting video size
 	fprintf(stderr, "Opening video track...\n");
 	FILE* input_video = fopen(argv[3], "rb");
+	if (input_video == NULL) {
+		fprintf(stderr, "Error opening \"%s\": %s\n", argv[3], strerror(errno));
+		return -1;
+	}
 	read_start = 0;
 	fseek(input_video, 0, SEEK_END);
 	size = (unsigned long)ftell(input_video);
