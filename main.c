@@ -11,17 +11,14 @@
 unsigned long audiosize;
 unsigned long videosize;
 
-void bufferedWrite(FILE* in, FILE* out, unsigned long size){
-	char* buffer = (char*)malloc(BUFFER_SIZE);
-	int i = 0;
-	unsigned long len;
-	while (i < size){
-		len = ((i + BUFFER_SIZE) > size) ? (size - i) : BUFFER_SIZE;
-		fread(buffer, 1, len, in);
-		fwrite(buffer, 1, len, out);
-		i += len;
-	}
-	free(buffer);
+void bufferedWrite(FILE* in, FILE* out) {
+	char buffer[BUFFER_SIZE];
+	size_t read_size;
+	do {
+		read_size = fread(buffer, BUFFER_SIZE, 1, in);
+		if (read_size)
+			fwrite(buffer, read_size, 1, out);
+	} while (read_size);
 }
 
 int main(int argc,char** argv){
@@ -62,7 +59,7 @@ int main(int argc,char** argv){
 	
 	// Writing audio data
 	fseek(input_audio, read_start, SEEK_SET);
-	bufferedWrite(input_audio, output, audiosize);
+	bufferedWrite(input_audio, output);
 	fclose(input_audio);
 	
 	// Getting video size
@@ -80,7 +77,7 @@ int main(int argc,char** argv){
 	
 	// Writing video data
 	fseek(input_video, read_start, SEEK_SET);
-	bufferedWrite(input_video, output, videosize);
+	bufferedWrite(input_video, output);
 	fclose(input_video);
 	
 	// Flushing output
