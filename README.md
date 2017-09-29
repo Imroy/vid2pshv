@@ -1,7 +1,7 @@
 <b>Introduction:</b><br>
 PSHV (PlayStation Homebrew Video) video format is a video format ideated to simplify the demuxing process and execution on a PSVITA device.<br>
-Supported audiocodecs = Vorbis.<br>
-Supported videocodecs = H.264<br>
+Supported audiocodecs = Ogg Vorbis<br>
+Supported videocodecs = MPEG-4 AVC (a.k.a <i>h.264</i>)<br>
 You can find a simple converter from various video format to PSHV here.<br>
 <br>
 <b>File infos:</b>
