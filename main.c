@@ -37,14 +37,14 @@ int main(int argc,char** argv){
 	fwrite(&framerate, sizeof(float), 1, output);
 	
 	// Getting audio size
-	printf("Writing audio track...\n");
+	fprintf(stderr, "Writing audio track...\n");
 	FILE* input_audio = fopen(argv[2], "rb");
 	unsigned long read_start = 0;
 	fseek(input_audio, 0, SEEK_END);
 	unsigned long size = (unsigned long)ftell(input_audio);
 	audiosize = size - read_start;
 	fwrite(&audiosize, sizeof(unsigned long), 1, output);
-	printf("Audio size: %lu bytes\n", audiosize);
+	fprintf(stderr, "Audio size: %lu bytes\n", audiosize);
 	
 	// Writing audio data
 	fseek(input_audio, read_start, SEEK_SET);
@@ -52,13 +52,13 @@ int main(int argc,char** argv){
 	fclose(input_audio);
 	
 	// Getting video size
-	printf("Opening video track...\n");
+	fprintf(stderr, "Opening video track...\n");
 	FILE* input_video = fopen(argv[3], "rb");
 	read_start = 0;
 	fseek(input_video, 0, SEEK_END);
 	size = (unsigned long)ftell(input_video);
 	videosize = size - read_start;
-	printf("Video size: %lu bytes\n", videosize);
+	fprintf(stderr, "Video size: %lu bytes\n", videosize);
 	
 	// Writing video data
 	fseek(input_video, read_start, SEEK_SET);
@@ -67,7 +67,7 @@ int main(int argc,char** argv){
 	
 	// Flushing output
 	fclose(output);
-	printf("Done!\n", size);
+	fprintf(stderr, "Done!\n", size);
 	
 	return 0;
 	
