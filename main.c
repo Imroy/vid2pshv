@@ -6,7 +6,7 @@
 #include <errno.h>
 #include <string.h>
 
-#define BUFFER_SIZE 536870912
+#define BUFFER_SIZE 1048576
 
 
 void bufferedWrite(FILE* in, FILE* out) {
